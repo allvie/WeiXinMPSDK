@@ -5,7 +5,7 @@
     min-width: 1000px;
 }*/
 .senparc-header {
-    background: #034067;
+    background: #0a9cd2;
 }
 
 /*.logo {
@@ -17,6 +17,7 @@
 }
 
 .logo img {
+    height: 46px;
     margin-top: 8px;
 }
 
@@ -172,6 +173,12 @@
     margin: 0 auto;
     overflow: hidden;
 }*/
+
+.wrapper.home {
+    font-size: 2rem;
+    text-align: center;
+    padding-top: 50px;
+}
 
 .weixin-item {
     margin-bottom: 30px;
@@ -1178,7 +1185,7 @@ p.crowdfunding-note {
 
         .logo img {
             margin-left: 8px;
-            width: 130px;
+            /*width: 130px;*/
             margin-top: 12px;
         }
 
@@ -1575,7 +1582,7 @@ p.crowdfunding-note {
 
         .logo img {
             margin-left: 8px;
-            width: 130px;
+            /*width: 130px;*/
             margin-top: 12px;
         }
 
