@@ -395,6 +395,12 @@ img.official-img {
 .form-control {
     padding: 36px 0;
     width: 50%;
+    margin: 0 auto;
+}
+
+.form-control.cl2 {
+    padding: 36px 0;
+    width: 50%;
     float: left;
 }
 
@@ -471,7 +477,7 @@ img.official-img {
     color: #585858;
     font-size: 14px;
     line-height: 24px;
-    width: 80%;
+    width: 95%;
     padding-left: 30px;
     letter-spacing: 1px;
 }
@@ -938,7 +944,7 @@ p.crowdfunding-note {
         padding-right: 35px;
     }
 
-    .form-control {
+    .form-control.cl2 {
         width: 46%;
         margin: 0 2%;
     }
@@ -1089,7 +1095,7 @@ p.crowdfunding-note {
         padding: 0 16px;
     }
 
-    .form-control {
+    .form-control.cl2 {
         width: 46%;
         margin: 0 2%;
     }

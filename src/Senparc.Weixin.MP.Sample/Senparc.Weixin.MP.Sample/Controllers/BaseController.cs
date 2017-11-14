@@ -28,5 +28,14 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return WebConfigurationManager.AppSettings["WeixinAppId"];//与微信公众账号后台的AppId设置保持一致，区分大小写。
             }
         }
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            if (System.Web.HttpContext.Current.Session["fgwx_loggedin"] == null || (bool)System.Web.HttpContext.Current.Session["fgwx_loggedin"] != true)
+            {
+                filterContext.Result = RedirectToAction("Index", "Login");
+                return;
+            }
+            base.OnActionExecuting(filterContext);
+        }
     }
 }
