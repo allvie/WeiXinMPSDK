@@ -28,7 +28,8 @@ namespace Senparc.Weixin.MP.Sample.Controllers
 
         public FileResult GetVoice(string mediaId)
         {
-            var accessToken = Containers.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
+            //var accessToken = Containers.AccessTokenContainer.TryGetAccessToken(appId, appSecret);
+            var accessToken = FGWX.Common.WXUtils.GetAccessToken();
 
             MemoryStream ms = new MemoryStream();
             AdvancedAPIs.MediaApi.Get(accessToken, mediaId, ms);
