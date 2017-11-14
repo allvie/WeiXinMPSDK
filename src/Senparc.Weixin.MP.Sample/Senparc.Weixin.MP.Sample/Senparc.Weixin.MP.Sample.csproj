@@ -252,6 +252,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Config\log4net.config" />
+    <Content Include="Config\log4net.unix.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Images\book-cover-front-small-3d-transparent.png" />
@@ -391,6 +393,10 @@
     <ProjectReference Include="..\..\Senparc.Weixin\Senparc.Weixin\Senparc.Weixin.csproj">
       <Project>{814092cd-9cd0-4fb7-91e8-d147f476f1fb}</Project>
       <Name>Senparc.Weixin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FGWX.Common\FGWX.Common.csproj">
+      <Project>{614aebeb-bcbe-43d1-9487-179a4e620e72}</Project>
+      <Name>FGWX.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Senparc.Weixin.MP.Sample.CommonService\Senparc.Weixin.MP.Sample.CommonService.csproj">
       <Project>{ccd291e9-16fa-4b53-b032-ebd3f659567b}</Project>

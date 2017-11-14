@@ -89,11 +89,11 @@ namespace Senparc.Weixin.MP.Sample.Controllers
 
         #region 微信用户授权相关
 
-        public ActionResult Index(string appId)
+        public ActionResult Index(string appId, string state = "")
         {
             //此页面引导用户点击授权
-            ViewData["UrlUserInfo"] = Open.OAuthAPIs.OAuthApi.GetAuthorizeUrl(appId, component_AppId, "http://sdk.weixin.senparc.com/OpenOAuth/UserInfoCallback", "JeffreySu", new[] { Open.OAuthScope.snsapi_userinfo, Open.OAuthScope.snsapi_base });
-            ViewData["UrlBase"] = Open.OAuthAPIs.OAuthApi.GetAuthorizeUrl(appId, component_AppId, "http://sdk.weixin.senparc.com/OpenOAuth/BaseCallback", "JeffreySu", new[] { Open.OAuthScope.snsapi_userinfo, Open.OAuthScope.snsapi_base });
+            ViewData["UrlUserInfo"] = Open.OAuthAPIs.OAuthApi.GetAuthorizeUrl(appId, component_AppId, WebConfigurationManager.AppSettings["Component_UserInfo"], state, new[] { Open.OAuthScope.snsapi_userinfo, Open.OAuthScope.snsapi_base });
+            ViewData["UrlBase"] = Open.OAuthAPIs.OAuthApi.GetAuthorizeUrl(appId, component_AppId, WebConfigurationManager.AppSettings["Component_Base"], state, new[] { Open.OAuthScope.snsapi_userinfo, Open.OAuthScope.snsapi_base });
             return View();
         }
 
@@ -111,12 +111,12 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != "JeffreySu")
-            {
-                //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
-                //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
-                return Content("验证失败！请从正规途径进入！");
-            }
+            //if (state != "FGWX")
+            //{
+            //    //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
+            //    //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
+            //    return Content("验证失败！请从正规途径进入！");
+            //}
 
             Open.OAuthAPIs.OAuthAccessTokenResult result = null;
 
@@ -165,12 +165,12 @@ namespace Senparc.Weixin.MP.Sample.Controllers
                 return Content("您拒绝了授权！");
             }
 
-            if (state != "JeffreySu")
-            {
-                //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
-                //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
-                return Content("验证失败！请从正规途径进入！");
-            }
+            //if (state != "FGWX")
+            //{
+            //    //这里的state其实是会暴露给客户端的，验证能力很弱，这里只是演示一下
+            //    //实际上可以存任何想传递的数据，比如用户ID，并且需要结合例如下面的Session["OAuthAccessToken"]进行验证
+            //    return Content("验证失败！请从正规途径进入！");
+            //}
 
             //通过，用code换取access_token
             var componentAccessToken = ComponentContainer.TryGetComponentAccessToken(component_AppId, component_Secret);

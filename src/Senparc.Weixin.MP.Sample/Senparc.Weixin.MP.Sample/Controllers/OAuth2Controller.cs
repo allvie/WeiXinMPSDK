@@ -33,9 +33,10 @@ namespace Senparc.Weixin.MP.Sample.Controllers
         /// </summary>
         /// <param name="returnUrl">用户尝试进入的需要登录的页面</param>
         /// <returns></returns>
-        public ActionResult Index(string returnUrl)
+        public ActionResult Index(string returnUrl, string state = "")
         {
-            var state = "JeffreySu-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
+            if (string.IsNullOrWhiteSpace(state))
+                state = "FGWX-" + DateTime.Now.Millisecond;//随机数，用于识别请求可靠性
             Session["State"] = state;//储存随机数到Session
 
             ViewData["returnUrl"] = returnUrl;
@@ -43,11 +44,11 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             //此页面引导用户点击授权
             ViewData["UrlUserInfo"] =
                 OAuthApi.GetAuthorizeUrl(appId,
-                "http://sdk.weixin.senparc.com/oauth2/UserInfoCallback?returnUrl=" + returnUrl.UrlEncode(),
+                ConfigurationManager.AppSettings["OAuth2_UserInfo"] + "?returnUrl=" + returnUrl.UrlEncode(),
                 state, OAuthScope.snsapi_userinfo);
             ViewData["UrlBase"] =
                 OAuthApi.GetAuthorizeUrl(appId,
-                "http://sdk.weixin.senparc.com/oauth2/BaseCallback?returnUrl=" + returnUrl.UrlEncode(),
+                ConfigurationManager.AppSettings["OAuth2_Base"] + "?returnUrl=" + returnUrl.UrlEncode(),
                 state, OAuthScope.snsapi_base);
             return View();
         }

@@ -1,8 +1,12 @@
 ﻿var senparc = {};
 var maxSubMenuCount = 5;
 var menuState;
+var currect_i = 0;
+var currect_j = 0;
 senparc.menu = {
     token: '',
+    conditionalmenu: null,
+    defaultmenu: null,
     init: function () {
         menuState = $('#menuState');
 
@@ -10,6 +14,7 @@ senparc.menu = {
         $('#menuEditor').hide();
 
         $("#buttonDetails_type").change(senparc.menu.typeChanged);
+        $("#addConditionalArea_list").change(senparc.menu.menuChanged);
 
         $(':input[id^=menu_button]').click(function () {
             $('#buttonDetails').show();
@@ -17,6 +22,8 @@ senparc.menu = {
                 ? ('menu_button' + $(this).attr('data-root'))
                 : ('menu_button' + $(this).attr('data-j') + '_sub_button' + $(this).attr('data-i'));
 
+            currect_i = parseInt($(this).attr('data-i'));
+            currect_j = parseInt($(this).attr('data-j'));
             var keyId = idPrefix + "_key";
             var nameId = idPrefix + "_name";
             var typeId = idPrefix + "_type";
@@ -73,6 +80,53 @@ senparc.menu = {
             }
         });
 
+        $('#up').click(function () {
+            if (currect_i > 0) {
+                exchange(currect_i, currect_j, currect_i - 1, currect_j);
+            }
+        });
+        $('#down').click(function () {
+            if (currect_i < 4) {
+                exchange(currect_i, currect_j, currect_i + 1, currect_j);
+            }
+        });
+        $('#left').click(function () {
+            if (currect_j > 0) {
+                exchange(currect_i, currect_j, currect_i, currect_j - 1);
+            }
+        });
+        $('#right').click(function () {
+            if (currect_j < 2) {
+                exchange(currect_i, currect_j, currect_i, currect_j + 1);
+            }
+        });
+        function exchange(oi, oj, ni, nj) {
+            console.log(arguments);
+            var o_idPrefix = 'menu_button' + oj + '_sub_button' + oi;
+            var o_key = $('#' + o_idPrefix + "_key").val();
+            var o_name = $('#' + o_idPrefix + "_name").val();
+            var o_type = $('#' + o_idPrefix + "_type").val();
+            var o_url = $('#' + o_idPrefix + "_url").val();
+            var o_mediaid = $('#' + o_idPrefix + "_mediaid").val();
+
+            var idPrefix = 'menu_button' + nj + '_sub_button' + ni;
+            $('#' + o_idPrefix + "_key").val($('#' + idPrefix + "_key").val());
+            $('#' + o_idPrefix + "_name").val($('#' + idPrefix + "_name").val());
+            $('#' + o_idPrefix + "_type").val($('#' + idPrefix + "_type").val());
+            $('#' + o_idPrefix + "_url").val($('#' + idPrefix + "_url").val());
+            $('#' + o_idPrefix + "_mediaid").val($('#' + idPrefix + "_mediaid").val());
+
+            $('#' + idPrefix + "_key").val(o_key);
+            $('#' + idPrefix + "_name").val(o_name);
+            $('#' + idPrefix + "_type").val(o_type);
+            $('#' + idPrefix + "_url").val(o_url);
+            $('#' + idPrefix + "_mediaid").val(o_mediaid);
+
+            currect_i = parseInt(ni);
+            currect_j = parseInt(nj);
+            $('#' + idPrefix + "_name").click();
+        }
+
         $('#menuLogin_Submit').click(function () {
             $.getJSON('/Menu/GetToken?t=' + Math.random(), { appId: $('#menuLogin_AppId').val(), appSecret: $('#menuLogin_AppSecret').val() },
                 function (json) {
@@ -91,9 +145,11 @@ senparc.menu = {
         $('#btnGetMenu').click(function () {
             menuState.html('获取菜单中...');
             $.getJSON('/Menu/GetMenu?t=' + Math.random(), { token: senparc.menu.token }, function (json) {
-                if (json.menu) {
+                if (json && json.menu) {
+                    senparc.menu.defaultmenu = json.menu;
                     $(':input[id^=menu_button]:not([id$=_type])').val('');
                     $('#buttonDetails:input').val('');
+                    $('#group_id, #sex, #country, #province, #city, #client_platform_type').val("");
 
                     var buttons = json.menu.button;
                     //此处i与j和页面中反转
@@ -128,6 +184,16 @@ senparc.menu = {
 
                     //显示JSON
                     $('#txtReveiceJSON').text(JSON.stringify(json));
+
+                    if (json.conditionalmenu) {
+                        senparc.menu.conditionalmenu = json.conditionalmenu;
+                        $('#addConditionalArea_list').empty();
+                        $('#addConditionalArea_list').append("<option value=\"-1\" selected=\"selected\">默认菜单</option>");
+                        for (var i = 0; i < senparc.menu.conditionalmenu.length; i++) {
+                            var cmenu = senparc.menu.conditionalmenu[i];
+                            $('#addConditionalArea_list').append("<option value=\"" + i + "\">Menu - " + cmenu.menuid + "</option>");
+                        }
+                    }
 
                     menuState.html('菜单获取已完成');
                 } else {
@@ -247,6 +313,59 @@ senparc.menu = {
                 $('#buttonDetails_miniprogram_pagepath_area').slideUp(100);
                 $('#buttonDetails_mediaId_area').slideUp(100);
                 break;
+        }
+    },
+    menuChanged: function () {
+        var val = parseInt($('#addConditionalArea_list').val());
+        var menu = senparc.menu.defaultmenu;
+        if (val >= 0 && senparc.menu.conditionalmenu != null && val < senparc.menu.conditionalmenu.length)
+            menu = senparc.menu.conditionalmenu[val];
+        if (menu) {
+            $(':input[id^=menu_button]:not([id$=_type])').val('');
+            $('#buttonDetails:input').val('');
+
+            $('#buttonDetails').hide();
+
+            var buttons = menu.button;
+            //此处i与j和页面中反转
+            for (var i = 0; i < buttons.length; i++) {
+                var button = buttons[i];
+                $('#menu_button' + i + '_name').val(button.name);
+                $('#menu_button' + i + '_key').val(button.key);
+                $('#menu_button' + i + '_type').val(button.type || 'click');
+                $('#menu_button' + i + '_url').val(button.url);
+                $('#menu_button' + i + '_appid').val(button.appid);
+                $('#menu_button' + i + '_pagepath').val(button.pagepath);
+                $('#menu_button' + i + '_mediaid').val(button.media_id);
+
+                if (button.sub_button && button.sub_button.length > 0) {
+                    //二级菜单
+                    for (var j = 0; j < button.sub_button.length; j++) {
+                        var subButton = button.sub_button[j];
+                        var idPrefix = '#menu_button' + i + '_sub_button' + j;
+                        $(idPrefix + "_name").val(subButton.name);
+                        $(idPrefix + "_type").val(subButton.type || 'click');
+                        $(idPrefix + "_key").val(subButton.key);
+                        $(idPrefix + "_url").val(subButton.url);
+                        $(idPrefix + "_appid").val(subButton.appid);
+                        $(idPrefix + "_pagepath").val(subButton.pagepath);
+                        $(idPrefix + "_mediaid").val(subButton.media_id);
+                    }
+                } else {
+                    //底部菜单
+                    //...
+                }
+            }
+            if (menu.matchrule) {
+                $('#group_id').val(menu.matchrule.group_id ? menu.matchrule.group_id : "");
+                $('#sex').val(menu.matchrule.sex ? menu.matchrule.sex : "");
+                $('#country').val(menu.matchrule.country ? menu.matchrule.country : "");
+                $('#province').val(menu.matchrule.province ? menu.matchrule.province : "");
+                $('#city').val(menu.matchrule.city ? menu.matchrule.city : "");
+                $('#client_platform_type').val(menu.matchrule.client_platform_type ? menu.matchrule.client_platform_type : "");
+            } else {
+                $('#group_id, #sex, #country, #province, #city, #client_platform_type').val("");
+            }
         }
     },
     setToken: function (token) {

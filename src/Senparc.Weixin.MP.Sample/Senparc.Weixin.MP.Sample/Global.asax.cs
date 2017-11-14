@@ -55,6 +55,7 @@ namespace Senparc.Weixin.MP.Sample
             RegisterWeixinThirdParty(); //注册微信第三方平台（按需）
 
             /* 微信配置结束 */
+            FGWX.Common.Logger.LogUtil.Setup();
         }
 
         /// <summary>

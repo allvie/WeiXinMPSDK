@@ -68,6 +68,10 @@
             border-right: 1px solid #d9d9d9;
         }
 
+        #addConditionalArea table {
+            margin-top: 10px;
+        }
+
         #addConditionalArea input {
             width: 100px;
         }
@@ -259,6 +263,12 @@
                 </table>
             </div>
             <div class="float-left" id="buttonDetails">
+                <p>
+                    <input type="button" id="left" class="btn btn_ctr" value="←" />
+                    <input type="button" id="right" class="btn btn_ctr" value="→" />
+                    <input type="button" id="up" class="btn btn_ctr" value="↑" />
+                    <input type="button" id="down" class="btn btn_ctr" value="↓" />
+                </p>
                 <h3>按钮其他参数</h3>
                 <p>Name：<input type="text" id="buttonDetails_name" class="control-input txtButton" disabled="disabled" /></p>
                 <p>
@@ -307,37 +317,45 @@
                 <p>
                     <table>
                         <tr>
+                            <td>当前菜单列表</td>
+                            <td>
+                                <select id="addConditionalArea_list" class="dllButtonDetails">
+                                    <option value="-1" selected="selected">默认菜单</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>group_id</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.group_id" placeholder="用户分组id" class="control-input" />
+                                <input type="text" id="group_id" name="MenuMatchRule.group_id" placeholder="用户分组id" class="control-input" />
                                 <span class="conditionalTip">用户分组id，可通过用户分组管理接口获取，不填则不做匹配</span>
                             </td>
                         </tr>
                         <tr>
                             <td>sex</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.sex" placeholder="性别" class="control-input" />
+                                <input type="text" id="sex" name="MenuMatchRule.sex" placeholder="性别" class="control-input" />
                                 <span class="conditionalTip">性别：男（1）女（2），不填则不做匹配</span>
                             </td>
                         </tr>
                         <tr>
                             <td>country</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.country" placeholder="国家信息" class="control-input" />
+                                <input type="text" id="country" name="MenuMatchRule.country" placeholder="国家信息" class="control-input" />
                                 <span class="conditionalTip">国家信息，是用户在微信中设置的地区，具体请参考地区信息表</span>
                             </td>
                         </tr>
                         <tr>
                             <td>province</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.province" placeholder="省份信息" class="control-input" />
+                                <input type="text" id="province" name="MenuMatchRule.province" placeholder="省份信息" class="control-input" />
                                 <span class="conditionalTip">省份信息，是用户在微信中设置的地区，具体请参考地区信息表</span>
                             </td>
                         </tr>
                         <tr>
                             <td>city</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.city" placeholder="城市信息" class="control-input" />
+                                <input type="text" id="city" name="MenuMatchRule.city" placeholder="城市信息" class="control-input" />
                                 <span class="conditionalTip">省城市信息，是用户在微信中设置的地区，具体请参考地区信息表</span>
 
                             </td>
@@ -345,7 +363,7 @@
                         <tr>
                             <td>client_platform_type</td>
                             <td>
-                                <input type="text" name="MenuMatchRule.client_platform_type" placeholder="客户端版本" class="control-input" />
+                                <input type="text" id="client_platform_type" name="MenuMatchRule.client_platform_type" placeholder="客户端版本" class="control-input" />
                                 <span class="conditionalTip">客户端版本，当前只具体到系统型号：IOS(1), Android(2),Others(3)，不填则不做匹配</span>
                             </td>
                         </tr>
@@ -375,5 +393,10 @@
 <script>
     $(function () {
         senparc.menu.init();
+
+        @if (!string.IsNullOrEmpty(@ViewData["token"] + ""))
+        {
+            @Html.Raw("document.getElementById('menuLogin_OldToken').value='" + @ViewData["token"] + "';");
+        }
     });
 </script>

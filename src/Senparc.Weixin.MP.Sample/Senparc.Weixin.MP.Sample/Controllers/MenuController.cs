@@ -63,6 +63,18 @@ namespace Senparc.Weixin.MP.Sample.Controllers
         public ActionResult Index()
         {
             GetMenuResult result = new GetMenuResult(new ButtonGroup());
+            try
+            {
+                string token = FGWX.Common.WXUtils.GetAccessToken();
+                if (!string.IsNullOrWhiteSpace(token))
+                {
+                    ViewData["token"] = token;
+                }
+            }
+            catch (Exception e)
+            {
+                FGWX.Common.Logger.LogUtil.LogError("Menu.Index GetAccessToken", e);
+            }
 
             //初始化
             for (int i = 0; i < 3; i++)
@@ -76,7 +88,7 @@ namespace Senparc.Weixin.MP.Sample.Controllers
             }
 
             //获取服务器外网IP
-            ViewData["IP"] = GetIP() ?? "使用CMD命令ping sdk.weixin.senparc.com";
+            ViewData["IP"] = GetIP() ?? "使用CMD命令ping wx.fugumobile.cn";
 
             return View(result);
         }

@@ -16,18 +16,18 @@ namespace FGWX.Common
 
         public static string GetAccessToken()
         {
-            using (System.Net.WebClient webclient = new System.Net.WebClient())
-            {
-                try
-                {
-                    return webclient.DownloadString("http://brand.fugumobile.cn/wx/token.ashx");
-                }
-                catch (Exception e)
-                {
-                    Common.Logger.LogUtil.LogError("WXUtils.GetAccessToken: " + AppId, e);
-                    return "";
-                }
-            }
+            //using (System.Net.WebClient webclient = new System.Net.WebClient())
+            //{
+            //    try
+            //    {
+            //        return webclient.DownloadString("http://brand.fugumobile.cn/wx/token.ashx");
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        Common.Logger.LogUtil.LogError("WXUtils.GetAccessToken: " + AppId, e);
+            //        return "";
+            //    }
+            //}
 
             //return Senparc.Weixin.MP.Containers.AccessTokenContainer.TryGetAccessToken(AppId, AppSecret);
             string token = null;
