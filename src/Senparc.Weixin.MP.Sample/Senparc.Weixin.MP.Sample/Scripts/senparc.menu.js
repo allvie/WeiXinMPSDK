@@ -121,6 +121,8 @@ senparc.menu = {
             var o_type = $('#' + o_idPrefix + "_type").val();
             var o_url = $('#' + o_idPrefix + "_url").val();
             var o_mediaid = $('#' + o_idPrefix + "_mediaid").val();
+            var o_appid = $('#' + o_idPrefix + "_appid").val();
+            var o_pagepath = $('#' + o_idPrefix + "_pagepath").val();
 
             var idPrefix = 'menu_button' + nj + '_sub_button' + ni;
             $('#' + o_idPrefix + "_key").val($('#' + idPrefix + "_key").val());
@@ -128,12 +130,16 @@ senparc.menu = {
             $('#' + o_idPrefix + "_type").val($('#' + idPrefix + "_type").val());
             $('#' + o_idPrefix + "_url").val($('#' + idPrefix + "_url").val());
             $('#' + o_idPrefix + "_mediaid").val($('#' + idPrefix + "_mediaid").val());
+            $('#' + o_idPrefix + "_appid").val($('#' + idPrefix + "_appid").val());
+            $('#' + o_idPrefix + "_pagepath").val($('#' + idPrefix + "_pagepath").val());
 
             $('#' + idPrefix + "_key").val(o_key);
             $('#' + idPrefix + "_name").val(o_name);
             $('#' + idPrefix + "_type").val(o_type);
             $('#' + idPrefix + "_url").val(o_url);
             $('#' + idPrefix + "_mediaid").val(o_mediaid);
+            $('#' + idPrefix + "_appid").val(o_appid);
+            $('#' + idPrefix + "_pagepath").val(o_pagepath);
 
             currect_i = parseInt(ni);
             currect_j = parseInt(nj);
