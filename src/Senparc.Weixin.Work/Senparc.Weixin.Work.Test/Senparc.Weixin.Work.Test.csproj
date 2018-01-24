@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\Senparc.Weixin.MP.Sample\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\..\Samples\Senparc.Weixin.MP.Sample\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
@@ -66,6 +66,7 @@
     <Compile Include="AdvancedAPIs\MailList\MailListApiTests.cs" />
     <Compile Include="AdvancedAPIs\MailList\Member\MemberTest.cs" />
     <Compile Include="AdvancedAPIs\MailList\Tag\TagTest.cs" />
+    <Compile Include="AdvancedAPIs\MassApi\MassApiTests.cs" />
     <Compile Include="AdvancedAPIs\Media\MediaTest.cs" />
     <Compile Include="CommonApis\AccessTokenContainerTest.cs" />
     <Compile Include="CommonApis\CommonApiTest.cs" />
